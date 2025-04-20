@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Arte e seus códigos – Conectando Código e Cultura</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 0; }
+    header { background: #333; color: white; padding: 20px; text-align: center; }
+    main { padding: 20px; }
+    section { background: white; padding: 20px; margin-top: 20px; border-radius: 8px; }
+    textarea { width: 100%; height: 100px; }
+    button { padding: 10px; margin-top: 10px; }
+    canvas { background: black; display: block; margin: 0 auto; border-radius: 8px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Arte e seus códigos</h1>
+  
+  
+</header>
+
+<main>
+
+  <section>
+    <h2>Introdução</h2>
+    <p>
+      Artecod tem o objetivo de integrar a programação e a difusão cultural, levando os visitantes da pinacoteca a descobrirem um pouco sobre como os códigos podem ser usados para criar a arte e também como a inteligência artificial é utilizada na criação de cenários.
+      A proposta visa estimular os jovens até conseguirem se aperfeiçoar e desenvolver interesse pela tecnologia, adquirindo habilidades técnicas e raciocínio lógico. Além disso, tem um grande papel no desenvolvimento cultural e promove uma reflexão sobre a programação na difusão cultural.
+    </p>
+  </section>
+
+  
+    
+    <section>
+      <h2>Calculadora Cultural</h2>
+      <p>Descubra a década de um ano histórico e veja curiosidades sobre cultura e tecnologia da época!</p>
+      <label for="anoInput">Digite um ano (ex: 1984):</label>
+      <input type="number" id="anoInput">
+      <button onclick="mostrarCuriosidades()">Converter</button>
+      <p id="resultadoDecada"></p>
+      <div id="curiosidadesCultura"></div>
+    </section>
+    
+    </section>
+    
+
+  <section>
+    <h2>Quiz Cultural</h2>
+    <form id="quizForm">
+      <p>1. Quem pintou a obra "Guernica"?<br>
+        <input type="radio" name="q1" value="Picasso"> Picasso<br>
+        <input type="radio" name="q1" value="Van Gogh"> Van Gogh<br>
+        <input type="radio" name="q1" value="Portinari"> Portinari<br>
+      </p>
+      <p>2. Qual linguagem usamos para criar páginas web?<br>
+        <input type="radio" name="q2" value="HTML"> HTML<br>
+        <input type="radio" name="q2" value="Python"> Python<br>
+        <input type="radio" name="q2" value="Java"> Java<br>
+      </p>
+      <p>3. O que é uma pinacoteca?<br>
+        <input type="radio" name="q3" value="Museu de arte"> Museu de arte<br>
+        <input type="radio" name="q3" value="Teatro"> Teatro<br>
+        <input type="radio" name="q3" value="Biblioteca"> Biblioteca<br>
+      </p>
+      <p>4. O que é CSS?<br>
+        <input type="radio" name="q4" value="Estilo de site"> Estilo de site<br>
+        <input type="radio" name="q4" value="Banco de dados"> Banco de dados<br>
+        <input type="radio" name="q4" value="Framework"> Framework<br>
+      </p>
+      <p>5. Qual destas é uma artista brasileira?<br>
+        <input type="radio" name="q5" value="Tarsila do Amaral"> Tarsila do Amaral<br>
+        <input type="radio" name="q5" value="Frida Kahlo"> Frida Kahlo<br>
+        <input type="radio" name="q5" value="Georgia O’Keeffe"> Georgia O’Keeffe<br>
+      </p>
+      <button type="submit">Enviar Respostas</button>
+    </form>
+    <p id="resultado"></p>
+  </section>
+
+  
+<section>
+  <h2>Deixe sua Opinião</h2>
+  <textarea id="opiniaoTexto" placeholder="Escreva sua opinião..."></textarea><br>
+  <button onclick="enviarOpiniao()">Enviar</button>
+  <p id="mensagemOpiniao"></p>
+
+  </section>
+
+</main>
+
+<script>
+  document.getElementById("quizForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    let respostas = ["Picasso", "HTML", "Museu de arte", "Estilo de site", "Tarsila do Amaral"];
+    let pontuacao = 0;
+    for (let i = 1; i <= 5; i++) {
+      let resposta = document.querySelector('input[name="q' + i + '"]:checked');
+      if (resposta && resposta.value === respostas[i - 1]) {
+        pontuacao++;
+      }
+    }
+    document.getElementById("resultado").innerText = "Você acertou " + pontuacao + " de 5 perguntas!";
+  });
+
+  // Jogo Pac-Man aprimorado
+  const canvas = document.getElementById("pacman");
+  const ctx = canvas.getContext("2d");
+  let x = 200, y = 200, r = 15, dx = 2, dy = 0;
+  let score = 0;
+  let food = { x: 100, y: 100 };
+  const ghosts = [
+    { x: 50, y: 50, dx: 2, dy: 0 },
+    { x: 350, y: 50, dx: -2, dy: 0 }
+  ];
+
+  const munchSound = new Audio("https://www.soundjay.com/button/beep-07.wav");
+  const loseSound = new Audio("https://www.soundjay.com/button/beep-10.wav");
+
+  function drawPacMan() {
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0.25 * Math.PI, 1.75 * Math.PI);
+    ctx.lineTo(x, y);
+    ctx.fillStyle = "yellow";
+    ctx.fill();
+    ctx.closePath();
+  }
+
+  function drawFood() {
+    ctx.beginPath();
+    ctx.arc(food.x, food.y, 5, 0, 2 * Math.PI);
+    ctx.fillStyle = "white";
+    ctx.fill();
+    ctx.closePath();
+  }
+
+  function drawGhost(ghost) {
+    ctx.beginPath();
+    ctx.arc(ghost.x, ghost.y, 15, 0, Math.PI * 2);
+    ctx.fillStyle = "red";
+    ctx.fill();
+    ctx.closePath();
+  }
+
+  function updateGhosts() {
+    ghosts.forEach(g => {
+      g.x += g.dx;
+      g.y += g.dy;
+      if (Math.random() < 0.02) {
+        const dirs = [
+          { dx: 2, dy: 0 },
+          { dx: -2, dy: 0 },
+          { dx: 0, dy: 2 },
+          { dx: 0, dy: -2 }
+        ];
+        const dir = dirs[Math.floor(Math.random() * dirs.length)];
+        g.dx = dir.dx;
+        g.dy = dir.dy;
+      }
+      if (g.x < 0 || g.x > canvas.width) g.dx *= -1;
+      if (g.y < 0 || g.y > canvas.height) g.dy *= -1;
+    });
+  }
+
+  function checkCollision(x1, y1, x2, y2, distance) {
+    return Math.hypot(x2 - x1, y2 - y1) < distance;
+  }
+
+  function update() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    x += dx;
+    y += dy;
+
+    if (x + r > canvas.width || x - r < 0) dx = -dx;
+    if (y + r > canvas.height || y - r < 0) dy = -dy;
+
+    drawFood();
+    drawPacMan();
+    ghosts.forEach(drawGhost);
+    updateGhosts();
+
+    if (checkCollision(x, y, food.x, food.y, r)) {
+      score++;
+      document.getElementById("score").innerText = score;
+      food.x = Math.random() * (canvas.width - 20) + 10;
+      food.y = Math.random() * (canvas.height - 20) + 10;
+      munchSound.play();
+    }
+
+    ghosts.forEach(g => {
+      if (checkCollision(x, y, g.x, g.y, r + 10)) {
+        loseSound.play();
+        alert("Você foi pego por um fantasma! Pontuação final: " + score);
+        document.location.reload();
+      }
+    });
+  }
+
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "ArrowRight") { dx = 2; dy = 0; }
+    else if (e.key === "ArrowLeft") { dx = -2; dy = 0; }
+    else if (e.key === "ArrowUp") { dx = 0; dy = -2; }
+    else if (e.key === "ArrowDown") { dx = 0; dy = 2; }
+  });
+
+  setInterval(update, 20);
+</script>
+
+
+    <footer style="text-align:center; padding: 20px; background: #ddd; margin-top: 40px;">
+      Desenvolvido por Michelle Rocha da Silva
+    </footer>
+    
+
+<script>
+  function mostrarCuriosidades() {
+    const ano = parseInt(document.getElementById("anoInput").value);
+    const resultado = document.getElementById("resultadoDecada");
+    const curiosidadesDiv = document.getElementById("curiosidadesCultura");
+
+    if (!ano || isNaN(ano)) {
+      resultado.innerText = "Por favor, insira um ano válido.";
+      curiosidadesDiv.innerHTML = "";
+      return;
+    }
+
+    const decada = Math.floor(ano / 10) * 10;
+    resultado.innerText = "O ano " + ano + " pertence à década de " + decada + ".";
+
+    const curiosidades = {
+      1920: "Anos 20: O rádio se tornou um meio popular de comunicação e arte sonora.",
+      1930: "Anos 30: O cinema falado começou a se destacar como forma de arte e cultura.",
+      1940: "Anos 40: Computadores começaram a surgir durante a Segunda Guerra Mundial.",
+      1950: "Anos 50: A televisão começou a moldar a cultura em massa.",
+      1960: "Anos 60: Cultura pop, revolução hippie e os primeiros computadores pessoais.",
+      1970: "Anos 70: Começo da revolução digital com os primeiros microprocessadores.",
+      1980: "Anos 80: Explosão dos videogames e da cultura hacker.",
+      1990: "Anos 90: Popularização da internet e o nascimento da cultura digital.",
+      2000: "Anos 2000: Avanço da tecnologia móvel e redes sociais moldando a cultura.",
+      2010: "Anos 2010: IA, streaming e algoritmos transformando a forma como vivemos cultura.",
+    };
+
+    curiosidadesDiv.innerHTML = curiosidades[decada] || "Década sem dados cadastrados, mas certamente cheia de cultura!";
+  }
+</script>
+
+
+<script>
+  // Simulação de envio de visita para banco de dados
+  fetch("https://api.exemplo.com/registrar-visita", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ timestamp: new Date().toISOString() })
+  }).then(response => {
+    console.log("Visita registrada no banco de dados.");
+  }).catch(error => {
+    console.error("Erro ao registrar visita:", error);
+  });
+</script>
+
+
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+  import { getDatabase, ref, push, onValue, query, orderByChild } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCt0LKZsouL4X1Mzq0lMaY6HkSlV1v4-bQ",
+    authDomain: "arte-interativo-cultural.firebaseapp.com",
+    databaseURL: "https://arte-interativo-cultural-default-rtdb.firebaseio.com",
+    projectId: "arte-interativo-cultural",
+    storageBucket: "arte-interativo-cultural.appspot.com",
+    messagingSenderId: "110887543216",
+    appId: "1:110887543216:web:cbf3d9253ad8122de82024"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+
+  const opiniaoTexto = document.getElementById("opiniaoTexto");
+  const mensagem = document.getElementById("mensagemOpiniao");
+
+  opiniaoTexto?.addEventListener("input", () => {
+    mensagem.innerText = "";
+  });
+
+  window.enviarOpiniao = function () {
+    const opiniao = opiniaoTexto.value;
+
+    if (!opiniao.trim()) {
+      mensagem.innerText = "Por favor, escreva sua opinião.";
+      return;
+    }
+
+    push(ref(database, "opinioes"), {
+      texto: opiniao,
+      data: new Date().toISOString()
+    })
+    .then(() => {
+      mensagem.innerText = "Obrigado por deixar sua opinião!";
+      opiniaoTexto.value = "";
+    })
+    .catch((error) => {
+      mensagem.innerText = "Erro ao enviar. Tente novamente.";
+      console.error(error);
+    });
+  }
+
+  // Carrega e exibe opiniões
+  function carregarOpinioes() {
+    const lista = document.createElement("div");
+    lista.id = "listaOpinioes";
+    document.querySelector("section:last-of-type").appendChild(lista);
+
+    const opinioesRef = query(ref(database, "opinioes"), orderByChild("data"));
+    onValue(opinioesRef, (snapshot) => {
+      lista.innerHTML = "<h3>Opiniões Recebidas</h3>";
+      const opinioes = [];
+
+      snapshot.forEach(child => {
+        opinioes.push(child.val());
+      });
+
+      opinioes.reverse().forEach(op => {
+        const paragrafo = document.createElement("p");
+        paragrafo.textContent = op.texto;
+        lista.appendChild(paragrafo);
+      });
+    });
+  }
+
+  carregarOpinioes();
+</script>
+</body>
+
+
+
+
+    
+</html>
